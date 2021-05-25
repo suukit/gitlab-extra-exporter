@@ -28,6 +28,7 @@ type ExporterClient struct {
 	gitlabAPIKey string
 	httpClient   *http.Client
 	interval     time.Duration
+	MaximumMRAge uint
 }
 
 //New returns a new Client connection to Gitlab.
@@ -40,6 +41,7 @@ func New(c internal.Config) *ExporterClient {
 		gitlabURI:    c.GitlabURI,
 		httpClient:   &http.Client{Timeout: 10 * time.Second},
 		interval:     time.Duration(convertedTime),
+		MaximumMRAge: c.MaximumMRAge,
 	}
 
 	exporter.startFetchData()

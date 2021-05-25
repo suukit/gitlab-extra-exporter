@@ -26,6 +26,7 @@ func init() {
 	flag.StringVar(&config.GitlabURI, "gitlabURI", os.Getenv("GITLAB_URI"), "URI to Gitlab instance to monitor")
 	flag.StringVar(&config.GitlabAPIKey, "gitlabAPIKey", os.Getenv("GITLAB_API_KEY"), "API Key to access the Gitlab instance")
 	flag.StringVar(&config.Interval, "interval", os.Getenv("INTERVAL"), "Provide a interval on what rate the Jira Service Desk API should be scraped.")
+	flag.UintVar(&config.MaximumMRAge, "maxMRAge", 7, "Maximum age/last update for MRs in days. If older -> don't show")
 }
 
 func main() {
@@ -83,6 +84,12 @@ func parseConfig() error {
 		}
 		if f.Name == "interval" && (f.Value.String() == "" || f.Value.String() == "0") {
 			err = f.Value.Set("60")
+			if err != nil {
+				log.Error(err)
+			}
+		}
+		if f.Name == "maxMRAge" && (f.Value.String() == "" || f.Value.String() == "0") {
+		    err = f.Value.Set("7")
 			if err != nil {
 				log.Error(err)
 			}

@@ -7,4 +7,5 @@ type Config struct {
 	GitlabURI     string
 	GitlabAPIKey  string
 	Interval      string
+	MaximumMRAge  uint
 }
